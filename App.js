@@ -6,44 +6,57 @@
  * @flow strict-local
  */
 
+/*
+ * 
+ * Develop by Chilaquiles verdes team
+ * Version 0.1
+ * Team:
+ * Lorena Mondragón
+ * Bruno Vitte
+ * Armando Limon
+ * Erick
+ *
+ */
+
 import React from 'react';
 import type {Node} from 'react';
+
+// Design framworks
+import * as eva from "@eva-design/eva";
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+    ApplicationProvider,
+    IconRegistry,
+} from '@ui-kitten/components';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
+
+// Redux
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+
+// Redux settings
+import sessionReducer from './reducers/SessionReducer'; 
+
+// Components
+import AppLayout from './src/app';
+
+const store = createStore(sessionReducer);
 
 const App: () => Node = () => {
   
   return (
     
-      <Text>Hola Mundo </Text>
+    <>
+        <IconRegistry icons={EvaIconsPack} />
+        <ApplicationProvider {...eva} theme={eva.dark}>
+            <Provider store={store}>
+                
+                <AppLayout />
 
+            </Provider>
+        </ApplicationProvider>
+    </>
+  
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
