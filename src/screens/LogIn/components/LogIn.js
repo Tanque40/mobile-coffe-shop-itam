@@ -11,15 +11,44 @@ import { StyleSheet, TouchableOpacity } from 'react-native'
 import { 
     Text,
     Layout,
+    Button
 } from '@ui-kitten/components';
 
+// Components
+import LogInForm from './LogInForm';
+
 class LogIn extends Component {
-    
+    signUp = () => {
+        this.props.dispatch({
+            type: 'NEW_USER',
+            payload: {
+            }
+        })
+    }
+
     render() {
         return(
 
-            <Layout stytle={styles.container}>
-                <Text> Hola LogIn </Text>
+            <Layout style={styles.container}>
+                
+                <Layout
+                    level = '2'
+                    style={styles.form}
+                >
+                    <Text category='h3'> Log In </Text>
+
+                    <LogInForm />
+                    
+                    <Layout>
+                        <TouchableOpacity onPress={this.signUp} >
+                            <Button appearance='ghost'>
+                                Sign Up
+                            </Button>
+                        </TouchableOpacity>
+                    </Layout>
+                    
+                </Layout>
+
             </Layout>
 
         );
@@ -30,6 +59,17 @@ class LogIn extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    form: {
+        flex: 1,
+        padding: 15,
+        justifyContent: 'center',
+    },
+    signUpContainer: {
+        paddingVertical: 10,
+        justifyContent: "center",
+        backgroundColor: "#3366ff",
+        width: 150,
     }
 });
 

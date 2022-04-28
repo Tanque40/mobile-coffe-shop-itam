@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 
 const INITIAL_STATE = {
     sessionStarted: false,
-    user: '',
+    userSes: '',
     auth_token: '',
     pedido: [],
     cuenta: 0,
