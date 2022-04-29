@@ -6,4 +6,4 @@ This is the mobile client for [Coffe Shop ITAM](https://github.com/Tanque40/coff
 
 Currently just have a Log In Screen. Connect with the web, but do nothing else.
 
-![Log In Screen]('./assets/images/logInScreen.png')
+![Log In Screen]('assets/images/logInScreen.png')
