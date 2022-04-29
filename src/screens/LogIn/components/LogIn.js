@@ -35,8 +35,10 @@ class LogIn extends Component {
                     level = '2'
                     style={styles.form}
                 >
-                    <Text category='h3'> Log In </Text>
 
+                    <Text category='h2'> Coffe Shop ITAM </Text>
+                    <Text category='h3'> Log In </Text>
+                    
                     <LogInForm />
                     
                     <Layout>
