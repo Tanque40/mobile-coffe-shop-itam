@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
 
+import { logInApi } from '../api/ApiConnection';
+
 const INITIAL_STATE = {
     sessionStarted: false,
     userSes: '',
@@ -18,6 +20,18 @@ const sessionReducer = ( state = INITIAL_STATE, action) => {
                 pedido: [...pedido, action.payload],
             };
             return newState;
+
+        case 'LOG_IN':
+            const data = logInApi(
+                action.payload.user, 
+                action.payload.password
+            );
+            var newState = {
+                ...state,
+                data_result: data,
+            }
+            return newState;
+
 
         default:
             return state;

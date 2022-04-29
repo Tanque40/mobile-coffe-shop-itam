@@ -4,6 +4,10 @@ import { StyleSheet } from 'react-native';
 
 // Redux
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+// Actions
+import { logIn } from '../../../../actions/SessionActions';
 
 // Design
 import { TouchableWithoutFeedback } from  '@ui-kitten/components/devsupport';
@@ -15,34 +19,53 @@ import {
 } from '@ui-kitten/components';
 
 class LogInForm extends Component {
-    state = {
-        user: '',
-        password: '',
-        secureTextEntry: true,
+    
+    // Set state to the form
+    constructor(props){
+        
+        super(props);
+
+        this.state = {
+            user: '',
+            password: '',
+            secureTextEntry: true,
+        }
+
     }
 
+    // AlertIcon for errors in password
     AlertIcon = (props) => {
         <Icon {...props} name='alert-circle-outline' />
     }
-
+    
+    // Change state of secure entry ? true :false
     toggleSecuryEntry = () => {
         this.setState({
             secureTextEntry: !this.state.secureTextEntry
         })
     }
-
-    renderIcon = (props) => {
+    
+    // Show eye-Icon to secure/notSecure Password
+    renderIcon = (props) => (
         <TouchableWithoutFeedback onPress={this.toggleSecuryEntry}>
             <Icon 
                 {...props} 
                 name={
-                    this.state.secureTextEntry ? 'eye-off' : 'eye'
+                    this.state.secureTextEntry ? 'eye-off-outline' : 'eye-outline'
                 }            
             />
         </TouchableWithoutFeedback>
+    );
+
+    // LogIn fuction send instruccion to Reducer
+    LogIn = () => {
+        data = {
+            user: this.state.user,
+            password: this.state.password,
+        }
+        console.log(data);
+        this.props.logIn( data );
     }
-
-
 
 
     render() {
@@ -55,7 +78,7 @@ class LogInForm extends Component {
                         value={this.state.user}
                         label='User'
                         placeholder='Type user'
-                        onChangeNext={
+                        onChangeText={
                             nextValue => this.setState({
                                 user: nextValue,
                             })
@@ -68,15 +91,31 @@ class LogInForm extends Component {
                         value={this.state.password}
                         label='Password'
                         placeholder='Type your password'
-                        accesoryRight={this.renderIcon}
+                        accessoryRight={this.renderIcon}
                         captionIcon={this.AlertIcon}
                         secureTextEntry={this.state.secureTextEntry}
-                        onChangeNext={
-                            nextValue => this.setState({
-                                password: nextValue,
+                        onChangeText={
+                            nextVal => this.setState({
+                                password: nextVal,
                             })
                         }
-                    />    
+                    />   
+                </Layout>
+
+                <Layout style={styles.submmitContainer}>
+                    <Button
+                        style={styles.submmit}
+                        onPress={ () => {
+                                var res = this.props.logIn(
+                                    this.state.user,
+                                    this.state.password,
+                                )
+                                console.log(res);
+                            }
+                        }
+                    >
+                        Log In
+                    </Button>
                 </Layout>
 
             </Layout>
@@ -90,7 +129,7 @@ class LogInForm extends Component {
 const styles = StyleSheet.create({
   
     container: {
-        padding: 10,
+        padding: 20,
     },
     input: {
         fontSize: 14,
@@ -106,4 +145,10 @@ const styles = StyleSheet.create({
 
 })
 
-export default connect(null)(LogInForm);
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        logIn,
+    }, dispatch)
+);
+
+export default connect(null, mapDispatchToProps)(LogInForm);
