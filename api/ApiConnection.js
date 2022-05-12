@@ -1,34 +1,22 @@
-const link = 'https://coffeshopitam.herokuapp.com/';
-var request = new XMLHttpRequest();
+const API = 'https://coffeshopitam.herokuapp.com/api/v1/';
 
-export function logInApi(user, password) {
-  var formData = new FormData();
-  // Parameters: {"authenticity_token"=>"xzaY1fCiCfqGEiq4BLn1IOIK8WnBEJ7/pCgWtU+2uLO3vJdjZUNm4AyviBKsl5raLrhGqgZcqHy5WL7QNjRiAg==", "user"=>{"email"=>"Bruno@itamcoffe.mx", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+export const LogInAPI = (user, password) => {
+  return new Promise((resolve, reject) => {
+    var formData = new FormData();
+    formData.append('email', user);
+    formData.append('password', password);
 
-  formData.append('Parameters', {
-    user: {
-      email: user,
-      password: password,
-      remember_me: 0,
-    },
+    const xhttp = new XMLHttpRequest();
+    console.log(formData);
+    xhttp.open('POST', API + 'users/sign_in', true);
+    xhttp.onreadystatechange = () => {
+      if (xhttp.readyState === 4) {
+        xhttp.status === 200
+          ? resolve(JSON.parse(xhttp.responseText))
+          : reject(new Error('Error: ', API + 'users/sign_in'));
+      }
+    };
+
+    xhttp.send(`email=${user}&password=${password}`);
   });
-
-  request.open('POST', link + 'api/v1/users/sign_in');
-  var data = (request.onload = () => {
-    // Begin accessing JSON data here
-    //data = JSON.parse(this.response);
-
-    if (request.status >= 200 && request.status < 400) {
-      data.forEach(movie => {
-        console.log(movie);
-      });
-      return data;
-    } else {
-      console.log('error');
-    }
-  });
-
-  request.send(formData);
-
-  return data;
-}
+};
