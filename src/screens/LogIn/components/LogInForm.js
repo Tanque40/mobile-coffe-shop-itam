@@ -47,16 +47,6 @@ class LogInForm extends Component {
     </TouchableWithoutFeedback>
   );
 
-  // LogIn fuction send instruccion to Reducer
-  LogIn = () => {
-    const data = {
-      user: this.state.user,
-      password: this.state.password,
-    };
-    console.log(data);
-    this.props.logIn(data);
-  };
-
   render() {
     return (
       <Layout style={styles.container}>

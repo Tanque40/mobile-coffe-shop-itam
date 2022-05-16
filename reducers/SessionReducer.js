@@ -1,12 +1,13 @@
 import {combineReducers} from 'redux';
 
-import {LogInApi} from '../api/ApiFunctions';
+import {LogInAPI} from '../api/ApiConnection';
 
 const INITIAL_STATE = {
   sessionStarted: false,
-  userSes: '',
-  auth_token: '',
-  pedido: [],
+  user: {
+    token: '',
+  },
+  pedido: {},
   cuenta: 0,
 };
 
@@ -21,32 +22,14 @@ const sessionReducer = (state = INITIAL_STATE, action) => {
       return newState;
 
     case 'LOG_IN':
-      // const data = LogInApi(action.payload.user, action.payload.password);
-      fetch('https://coffeshopitam.herokuapp.com/api/v1/users/sign_in', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: action.payload.user,
-          password: action.payload.password,
-        }),
-      })
-        .then(data => {
-          console.log('wuuu');
-          console.log(data);
-          newState = {
-            data_result: data,
-          };
-          return data.json();
-        })
-        .then(json => {
-          console.log(json.user.token);
-        })
-        .catch(err => {
-          console.error('buu', err);
-        });
+      const data = LogInAPI(action.payload.user, action.payload.password);
+      newState = {
+        sessionStarted: true,
+        user: data,
+        pedido: state.pedido,
+        cuenta: state.cuenta,
+      };
+      // console.log(data);
       return newState;
 
     default:

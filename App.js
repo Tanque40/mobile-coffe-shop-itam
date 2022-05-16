@@ -7,7 +7,7 @@
  */
 
 /*
- * 
+ *
  * Develop by Chilaquiles verdes team
  * Version 0.1
  * Team:
@@ -22,19 +22,16 @@ import React from 'react';
 import type {Node} from 'react';
 
 // Design framworks
-import * as eva from "@eva-design/eva";
-import {
-    ApplicationProvider,
-    IconRegistry,
-} from '@ui-kitten/components';
-import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import * as eva from '@eva-design/eva';
+import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
+import {EvaIconsPack} from '@ui-kitten/eva-icons';
 
 // Redux
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
 
 // Redux settings
-import sessionReducer from './reducers/SessionReducer'; 
+import sessionReducer from './reducers/SessionReducer';
 
 // Components
 import AppLayout from './src/app';
@@ -42,20 +39,15 @@ import AppLayout from './src/app';
 const store = createStore(sessionReducer);
 
 const App: () => Node = () => {
-  
   return (
-    
     <>
-        <IconRegistry icons={EvaIconsPack} />
-        <ApplicationProvider {...eva} theme={eva.dark}>
-            <Provider store={store}>
-                
-                <AppLayout />
-
-            </Provider>
-        </ApplicationProvider>
+      <IconRegistry icons={EvaIconsPack} />
+      <ApplicationProvider {...eva} theme={eva.dark}>
+        <Provider store={store}>
+          <AppLayout />
+        </Provider>
+      </ApplicationProvider>
     </>
-  
   );
 };
 

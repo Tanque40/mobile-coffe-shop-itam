@@ -1,22 +1,43 @@
 const API = 'https://coffeshopitam.herokuapp.com/api/v1/';
 
-export const LogInAPI = (user, password) => {
-  return new Promise((resolve, reject) => {
-    var formData = new FormData();
-    formData.append('email', user);
-    formData.append('password', password);
+export const LogInAPI = async (user, password) => {
+  const API_link = `${API}users/sign_in`;
+  try {
+    const response = await fetch(API_link, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: user,
+        password: password,
+      }),
+    });
 
-    const xhttp = new XMLHttpRequest();
-    console.log(formData);
-    xhttp.open('POST', API + 'users/sign_in', true);
-    xhttp.onreadystatechange = () => {
-      if (xhttp.readyState === 4) {
-        xhttp.status === 200
-          ? resolve(JSON.parse(xhttp.responseText))
-          : reject(new Error('Error: ', API + 'users/sign_in'));
-      }
-    };
+    const json = await response.json();
+    console.log(json);
+    return json.user;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-    xhttp.send(`email=${user}&password=${password}`);
-  });
+export const GetCategories = async token => {
+  const API_link = `${API}categories`;
+  try {
+    const response = await fetch(API_link, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const json = await response.json();
+    console.log(json.categories);
+    return json.categories;
+  } catch (error) {
+    console.error(error);
+  }
 };
