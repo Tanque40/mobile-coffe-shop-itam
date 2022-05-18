@@ -5,23 +5,25 @@ import React from 'react';
 import {View, SafeAreaView, StyleSheet} from 'react-native';
 
 // Ui-kitten
-import {Text} from '@ui-kitten/components';
+import {Layout, Text} from '@ui-kitten/components';
 
 export const NavBar = props => (
-  <View>
-    <SafeAreaView>
-      <View style={styles.container}>
-        <Text>CoffeShop ITAM</Text>
-        <View style={styles.right}>{props.children}</View>
-      </View>
-    </SafeAreaView>
-  </View>
+  <Layout level="4">
+    <View>
+      <SafeAreaView>
+        <View style={styles.container}>
+          <Text>CoffeShop ITAM</Text>
+          <View style={styles.right}>{props.children}</View>
+        </View>
+      </SafeAreaView>
+    </View>
+  </Layout>
 );
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 5,
-    paddingHorizontal: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
     flexDirection: 'row',
   },
   right: {
