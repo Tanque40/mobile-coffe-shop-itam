@@ -9,7 +9,7 @@ import {connect} from 'react-redux';
 import {Layout, Text} from '@ui-kitten/components';
 
 // Containers
-import {Menu} from '../containers/menu';
+import {MenuComponent} from './Menu';
 import {NavBar} from '../../sections/containers/navbar';
 import {Loading} from '../../sections/containers/loading';
 
@@ -73,7 +73,7 @@ class Index extends Component {
             <Text> Hola </Text>
           </NavBar>
           <ScrollView>
-            <Menu items={categories} />
+            <MenuComponent items={categories} />
           </ScrollView>
         </Layout>
       );
