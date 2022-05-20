@@ -5,11 +5,19 @@ import React, {Component} from 'react';
 import {ScrollView, StyleSheet, Image} from 'react-native';
 
 // UI kitten
-import {Layout, Text, Menu, MenuItem, IndexPath} from '@ui-kitten/components';
+import {
+  Layout,
+  Text,
+  Menu,
+  MenuItem,
+  IndexPath,
+  Button,
+} from '@ui-kitten/components';
 import {TouchableWithoutFeedback} from '@ui-kitten/components/devsupport';
 
 // Containers
 import {Loading} from '../../sections/containers/loading';
+import {ChangeQuantity} from '../containers/changeQuantity';
 
 const API = 'https://coffeshopitam.herokuapp.com/api/v1/';
 
@@ -22,6 +30,7 @@ export class MenuComponent extends Component {
       isLoaded: false,
       selected: [true],
       foods: [],
+      quantityFoods: [],
       selectedIndex: new IndexPath(0),
     };
   }
@@ -53,6 +62,18 @@ export class MenuComponent extends Component {
       );
   }
 
+  setQuantity = nextValue => {
+    if (
+      nextValue === '' ||
+      parseInt(nextValue, 10) >= 0 ||
+      parseInt(nextValue, 10) <= 100
+    ) {
+      console.log(this.state.quantityFoods);
+      this.state.quantityFoods[0][this.state.selectedIndex - 1] =
+        parseInt(nextValue);
+    }
+  };
+
   render() {
     if (this.state.error) {
       return (
@@ -66,26 +87,31 @@ export class MenuComponent extends Component {
     return (
       <Layout style={styles.container}>
         <ScrollView horizontal={true}>
-          {this.props.items.map(item => (
-            <TouchableWithoutFeedback
-              key={item.id}
-              onPress={() => console.log('como lo cambio?')}>
-              <Layout
-                level={this.state.selected[item.id - 1] ? '4' : '3'}
-                style={styles.button}>
-                <Text>{item.name}</Text>
-              </Layout>
-            </TouchableWithoutFeedback>
-          ))}
+          {this.props.items.map(item => {
+            this.state.quantityFoods.push([]);
+            return (
+              <TouchableWithoutFeedback
+                key={item.id}
+                onPress={() => console.log('como lo cambio?')}>
+                <Layout
+                  level={this.state.selected[item.id - 1] ? '4' : '3'}
+                  style={styles.button}>
+                  <Text>{item.name}</Text>
+                </Layout>
+              </TouchableWithoutFeedback>
+            );
+          })}
         </ScrollView>
         <Layout level="2" style={styles.menuContainer}>
           <ScrollView>
             <Menu
               selectedIndex={this.state.selectedIndex}
               onSelect={index => this.setState({selectedIndex: index})}>
-              {this.state.foods.map(food => (
-                <MenuItem title={food.name} />
-              ))}
+              {this.state.foods.map((food, index) => {
+                this.state.quantityFoods[0][index] = 0;
+                console.log(this.state);
+                return <MenuItem title={food.name} />;
+              })}
             </Menu>
           </ScrollView>
         </Layout>
@@ -99,6 +125,14 @@ export class MenuComponent extends Component {
             style={styles.imageMenu}
           />
         </Layout>
+
+        <ChangeQuantity
+          quantity={this.state.quantityFoods[0][this.state.selectedIndex - 1]}
+          upQuantity={this.upQuantity}
+          downQuantity={this.downQuantity}
+          setQuantity={this.setQuantity}
+        />
+        <Button style={styles.buttonF}>Finalizar Pedido</Button>
       </Layout>
     );
   }
@@ -111,6 +145,9 @@ const styles = StyleSheet.create({
   menuContainer: {
     padding: 12,
     height: 250,
+  },
+  buttonF: {
+    margin: 5,
   },
   button: {
     padding: 7,
